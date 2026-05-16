@@ -210,6 +210,12 @@ LITELLM_MODEL=ollama/qwen3:8b
 > **Critical Warning**: If you enable `LLM_CHANNELS`, any standard `DEEPSEEK_API_KEY` or `OPENAI_API_KEY` declared independently will be **completely ignored**. **Use only one mode** to prevent configuration conflicts.
 > **Docker note**: If `LITELLM_MODEL`, `LLM_CHANNELS`, `LLM_DEEPSEEK_MODELS`, or related variables are explicitly passed through `docker compose environment:` or `docker run -e`, they will override the `.env` written by the Web settings page after a container restart. Update the deployment environment at the same time.
 
+### Compatibility evidence and rollback audit notes (for this recovery change)
+
+- Compatibility is validated in two layers: first-party provider/API contract references (LiteLLM OpenAI-compatible routing, OpenAI Chat Completions, Moonshot/Kimi docs and model notes), and second the current runtime implementation in this repository under `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0`.
+- This recovery path is runtime-only and intentionally local: exception classification + one in-request repair retry + in-process cache. It does not rewrite `.env`, migrate saved config keys, or alter legacy values; it only omits/adjusts request parameters (`temperature`, `top_p`, `presence_penalty`, `frequency_penalty`, `seed`) for the current call. Rolling back requires no migration; restore previous settings and model/provider selection.
+- Regression evidence for this path is in `tests/test_llm_param_recovery.py`, `tests/test_system_config_service.py`, `tests/test_llm_channel_config.py`, `tests/test_system_config_api.py`, `tests/test_market_analyzer_generate_text.py`, `tests/test_agent_pipeline.py`; desktop backup import restore is directly covered by `test_import_desktop_env_restores_runtime_models_after_cleanup`.
+
 ---
 
 ## Method 3: Advanced YAML Config (Expert Setup)
