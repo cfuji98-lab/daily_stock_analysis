@@ -761,10 +761,12 @@ If no reachable Web base URL or history record is available, DSA should not gene
 
 - This scope is part of the `#1311` umbrella split (P0-P7). PR descriptions must link phase work with `Refs #1311`, and must not combine `Closes`, `Fixes`, or `Resolves` with `#1311` for a single phase PR.
 - Delivery rollout only adjusts notification shape and fallback behavior; it does not change model names, provider settings, Base URL semantics, LLM config cleanup, or persistence migration behavior. Rollback path remains reverting related runtime behavior to the previous version.
+- This phase introduces no new external model/provider/API migration semantics; any structured validation "external model/API" or "migration" findings should be treated as static-scope hits on newly documented notification keys, not runtime changes in this PR.
 - Compatibility verification:
+  - Dependency window: `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0` in `requirements.txt`
+  - Regression tests: `tests/test_analysis_api_contract.py`, `tests/test_analysis_history.py`, `tests/test_market_review.py`, `tests/test_notification_diagnostics.py`, `tests/test_feishu_doc.py`
   - If structured validation reports external model/API or migration risks, the PR description should state that this is an existing static rule matching newly introduced notification keys; it does not imply runtime model/provider/Base URL, LLM routing, `.env` persistence migration, or legacy config cleanup behavior changed in this PR.
   - Official references: <https://docs.litellm.ai/docs/providers/openai_compatible>, <https://platform.openai.com/docs/api-reference/chat/create>
-  - Dependency window: `litellm>=1.80.10,!=1.82.7,!=1.82.8,<2.0.0` in `requirements.txt`
 - PR descriptions should record actual verification results: first link the current CI `backend-gate` and `docker-build` run; if it is not available in the PR, append local `./scripts/ci_gate.sh` results; at minimum include `python main.py --check-notify`, and optionally add `python -m py_compile src/feishu_doc.py src/schemas/report_delivery.py src/services/notification_diagnostics.py` and `python -m pytest -m "not network" tests/test_notification_diagnostics.py tests/test_feishu_doc.py`.
 
 ### Discord
