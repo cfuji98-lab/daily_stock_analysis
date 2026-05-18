@@ -105,7 +105,7 @@
 | `summary_items` | 关键结论列表 | 买入/观望/卖出统计、Top 结论、风险提示 |
 | `full_markdown` | 完整 Markdown | Web Markdown endpoint、邮件或文本 fallback |
 | `full_html` | 完整 HTML | 邮件优先载体 |
-| `image_snapshot` | 图片快照 | 仅显式启用时使用，适合短报告或摘要视觉保真 |
+| `image_snapshot_bytes` | 图片快照字节 | 仅显式启用时使用，适合短报告或摘要视觉保真 |
 | `report_url` | Web 历史报告入口 | 只有存在明确可访问 base URL 或历史记录时才生成 |
 | `external_doc_url` | 外部文档入口 | 飞书云文档等外部阅读载体 |
 
