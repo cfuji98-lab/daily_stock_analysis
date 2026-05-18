@@ -139,7 +139,7 @@ package 的 `metadata` 会过滤疑似敏感键，例如 token、secret、passwo
 
 ### PR 描述补充清单（#1311）
 
-- 本阶段为通知投递能力的分阶段治理收口，不涉及模型名、provider、Base URL、LLM 运行时入口或 `.env` 持久化迁移，PR 说明中不得使用 `Closes`、`Fixes`、`Resolves` 搭配 `#1311` 自动关闭 umbrella。
+- 本阶段为通知投递能力的分阶段治理收口，不涉及模型名、provider、Base URL、LLM 运行时入口或 `.env` 持久化迁移，PR 标题与说明中不得使用 `Closes`、`Fixes`、`Resolves` 搭配 `#1311` 自动关闭 umbrella，改用 `Refs #1311`。
 - 若结构化检测提示外部模型/API 或运行时配置迁移风险，PR 描述需明确该提示来自既有静态检测规则覆盖新增通知配置项，不代表本轮改动模型名、provider、Base URL、LLM 路由、`.env` 持久化迁移或旧配置清理语义。
 - PR 描述需写明仓库内依据：通知链路边界以本文档、`docs/full-guide*.md`、`requirements.txt` 中 LiteLLM 依赖窗口，以及 `tests/test_notification_diagnostics.py`、`tests/test_feishu_doc.py` 的回归覆盖为准。
 - 回退方式：回退本次 PR 即可恢复旧行为；如要逐项回退可清理 `NOTIFICATION_*`、`MARKDOWN_TO_IMAGE_CHANNELS` 等新增配置项，不需要执行模型/API 配置迁移。
@@ -148,6 +148,7 @@ package 的 `metadata` 会过滤疑似敏感键，例如 token、secret、passwo
 - 建议补充的兼容性验证证据（可选其二）：
   - `tests/test_analysis_api_contract.py`、`tests/test_analysis_history.py`、`tests/test_market_review.py`：确认未改动模型/provider/Base URL 的运行时兼容链路。
   - `tests/test_notification_diagnostics.py`、`tests/test_feishu_doc.py`：确认本轮变更保持通知能力矩阵与飞书文档输出一致。
+  - `tests/test_report_delivery_package.py`：确认 `summary_markdown` 与投递载荷声明的字段清单一致，避免契约与导出列表脱节。
 
 ## CLI 诊断
 

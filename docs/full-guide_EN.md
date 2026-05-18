@@ -759,7 +759,7 @@ If no reachable Web base URL or history record is available, DSA should not gene
 
 ### Compatibility and issue-tracking note (notification rollout)
 
-- This scope is part of the `#1311` umbrella split (P0-P7). PR descriptions must link phase work with `Refs #1311`, and must not combine `Closes`, `Fixes`, or `Resolves` with `#1311` for a single phase PR.
+- This scope is part of the `#1311` umbrella split (P0-P7). PR titles and descriptions must link phase work with `Refs #1311`, and must not combine `Closes`, `Fixes`, or `Resolves` with `#1311` for a single phase PR.
 - Delivery rollout only adjusts notification shape and fallback behavior; it does not change model names, provider settings, Base URL semantics, LLM config cleanup, or persistence migration behavior. Rollback path remains reverting related runtime behavior to the previous version.
 - This phase introduces no new external model/provider/API migration semantics; any structured validation "external model/API" or "migration" findings should be treated as static-scope hits on newly documented notification keys, not runtime changes in this PR.
 - Compatibility verification:
@@ -768,6 +768,7 @@ If no reachable Web base URL or history record is available, DSA should not gene
   - If structured validation reports external model/API or migration risks, the PR description should state that this is an existing static rule matching newly introduced notification keys; it does not imply runtime model/provider/Base URL, LLM routing, `.env` persistence migration, or legacy config cleanup behavior changed in this PR.
   - Official references: <https://docs.litellm.ai/docs/providers/openai_compatible>, <https://platform.openai.com/docs/api-reference/chat/create>
 - PR descriptions should record actual verification results: do not list only `git diff --check`; they must explicitly include the current CI `backend-gate` and `docker-build` run first, and if not already in the PR append local `./scripts/ci_gate.sh` results; at minimum include `python main.py --check-notify`, and optionally add `python -m py_compile src/feishu_doc.py src/schemas/report_delivery.py src/services/notification_diagnostics.py` and `python -m pytest -m "not network" tests/test_notification_diagnostics.py tests/test_feishu_doc.py`.
+- PR descriptions should also state that `summary_markdown` is covered in the delivery payload contract; if this round does not touch runtime, mark that `tests/test_report_delivery_package.py` follow-up verification is deferred to a later phase PR.
 
 ### Discord
 
