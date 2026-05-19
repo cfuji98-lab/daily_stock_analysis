@@ -285,3 +285,13 @@ python main.py --webui-only
 本项目仅供学习和研究使用，不构成任何投资建议。股市有风险，投资需谨慎。作者不对使用本项目产生的任何损失负责。
 
 ---
+
+---
+
+## 💰 支持作者
+
+如果这个项目对你有帮助，欢迎打赏支持 ☕
+
+![收款码](https://raw.githubusercontent.com/cfuji98-lab/stock-daily-review/main/docs/assets/qrcode.png)
+
+*本Fork由 cfuji98-lab 维护，在原版基础上增加了打赏支持功能*
